@@ -1,6 +1,6 @@
 {
   "name": "node-screen-dpi",
-  "version": "1.0.0",
+  "version": "1.0.",
   "description": "Get the screen dpi on Windows",
   "type": "module",
   "main": "./lib/index.cjs",
@@ -40,7 +40,7 @@
   "homepage": "https://github.com/zhangchuanbo/node-screen-dpi#readme",
   "devDependencies": {
     "eslint": "^7.30.0",
-    "node-gyp": "^8.1.0"
+    "node-gyp": "^5.1.0"
   },
   "dependencies": {
     "bindings": "^1.5.0",
