@@ -3,10 +3,10 @@
   "version": "1.0.1",
   "description": "Get the screen dpi on Windows",
   "type": "module",
-  "main": "./lib/index.cjs",
+  "main": "./lib/index.js",
   "exports": {
     "import": "./lib/esm.mjs",
-    "require": "./lib/index.cjs"
+    "require": "./lib/index.js"
   },
   "os": [
     "win32"
