@@ -1,5 +1,5 @@
 {
-  "name": "node-screen-dpi",
+  "name": "node-screen-dpi-win",
   "version": "1.0.0",
   "description": "Get the screen dpi on Windows",
   "main": "./lib/index.js",
