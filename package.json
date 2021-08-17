@@ -1,8 +1,7 @@
 {
   "name": "node-screen-dpi",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Get the screen dpi on Windows",
-  "type": "module",
   "main": "./lib/index.js",
   "exports": {
     "import": "./lib/esm.mjs",
@@ -12,7 +11,7 @@
     "win32"
   ],
   "engines": {
-    "node": ">=0.12"
+    "node": ">=10.0"
   },
   "scripts": {
     "build": "node-gyp rebuild",

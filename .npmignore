@@ -2,3 +2,5 @@
 build/
 test/
 .eslintrc.json
+.vscode
+package-lock.json
