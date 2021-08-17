@@ -1,7 +1,8 @@
 {
   "name": "node-screen-dpi-win",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Get the screen dpi on Windows",
+  "type": "commonjs",
   "main": "./lib/index.js",
   "exports": {
     "import": "./lib/esm.mjs",
