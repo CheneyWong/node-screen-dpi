@@ -1,6 +1,6 @@
 "use strict";
 
-const { GetDPI } = require("../lib/index.cjs");
+const { GetScreen } = require("../lib/index.js");
 
-const dpi = GetDPI();
-console.log(`Current screen resolution is ${JSON.stringify(dpi)}`);
+const screen = GetScreen();
+console.log(`Current screen resolution is ${JSON.stringify(screen)}`);

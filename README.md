@@ -5,15 +5,15 @@ Example
 
 ```js
 
-const {GetDPI} = require("node-screen-dpi-win");
+const {GetScreen} = require("node-screen-dpi");
 
-const dpi = GetDPI(); // {dpi: i}
+const screen = GetDPI(); // {dpi: i,...}
 
 ```
 
 Installation
 ============
 
-`npm install node-screen-dpi-win`
+`npm install node-screen-dpi`
 
 You will need C/C++ build tools and Python 2.7 (node-gyp) to build this module.

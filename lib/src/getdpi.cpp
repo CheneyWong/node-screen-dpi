@@ -28,33 +28,33 @@ SOFTWARE.
 
 #include <iostream>
 
-Napi::Object GetDPI(const Napi::CallbackInfo &info)
+Napi::Object GetScreen(const Napi::CallbackInfo &info)
 {
 	Napi::Env env = info.Env();
-	Napi::Object DPI = Napi::Object::New(env);
+	Napi::Object screen = Napi::Object::New(env);
 	HDC hdc = GetDC(NULL); // 得到屏幕DC
-	double dScrLeng = 0;
-	int pixWidth = GetDeviceCaps(hdc, HORZRES);
-	int pixHeight = GetDeviceCaps(hdc, VERTRES);
-	int dhcWidth = GetDeviceCaps(hdc, HORZSIZE);
-	int hdcHeight = GetDeviceCaps(hdc, VERTSIZE);
-	int deskw = GetDeviceCaps(hdc, DESKTOPHORZRES);
-	int deskH = GetDeviceCaps(hdc, DESKTOPVERTRES);
-	dScrLeng = sqrt((double)(dhcWidth * dhcWidth + hdcHeight * hdcHeight));
-	int dpi = (int)(sqrt(pixWidth * pixWidth + pixHeight * pixHeight) / (dScrLeng / 25.4));
-	int deskDpi = (int)(sqrt(deskw * deskw + deskH * deskH) / (dScrLeng / 25.4));
-	DPI.Set("dpi", dpi);
-	DPI.Set("deskDpi", deskDpi);
-	DPI.Set("deskw", deskw);
-	DPI.Set("deskH", deskH);
-	return DPI;
+	//在electron中 缩放后分辨率获取失败获取到还是原始分辨率
+	int pixWidth = GetDeviceCaps(hdc, HORZRES);			//屏幕宽度实际尺寸mm
+	int pixHeight = GetDeviceCaps(hdc, VERTRES);		//屏幕高度实际尺寸mm
+	int dhcWidth = GetDeviceCaps(hdc, HORZSIZE);		//屏幕X分辨率
+	int hdcHeight = GetDeviceCaps(hdc, VERTSIZE);		//屏幕Y分辨率
+	int deskw = GetDeviceCaps(hdc, DESKTOPHORZRES); //屏幕X分辨率未缩放时
+	int deskH = GetDeviceCaps(hdc, DESKTOPVERTRES); //屏幕X分辨率未缩放时
+	double dScrLeng = sqrt((double)(dhcWidth * dhcWidth + hdcHeight * hdcHeight));
+	int dpi = (int)(sqrt(deskw * deskw + deskH * deskH) / (dScrLeng / 25.4));
+	screen.Set("dpi", dpi);
+	screen.Set("width", pixWidth);
+	screen.Set("height", pixHeight);
+	screen.Set("HORZRES", dhcWidth);
+	screen.Set("VERTRES", hdcHeight);
+	return screen;
 }
 
 /* NAPI Initialize add-on*/
 
 Napi::Object Init(Napi::Env env, Napi::Object exports)
 {
-	exports.Set("GetDPI", Napi::Function::New(env, GetDPI));
+	exports.Set("GetScreen", Napi::Function::New(env, GetScreen));
 	return exports;
 }
 
