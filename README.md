@@ -7,7 +7,7 @@ Example
 
 const {GetScreen} = require("node-screen-dpi");
 
-const screen = GetDPI(); // {dpi: i,...}
+const screen = GetScreen(); // {dpi: i,...}
 
 ```
 
