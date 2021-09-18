@@ -23,15 +23,20 @@ SOFTWARE.
 */
 
 #include <napi.h>
-
+#include <math.h>
+#if defined(_WIN32) || defined(_WIN64)
 #include <Windows.h>
-
+#endif
+#if defined(__linux) || defined(__unix) || defined(__posix)
+#include <X11/Xlib.h>
+#endif
 #include <iostream>
 
 Napi::Object GetScreen(const Napi::CallbackInfo &info)
 {
 	Napi::Env env = info.Env();
 	Napi::Object screen = Napi::Object::New(env);
+#if defined(_WIN32) || defined(_WIN64)
 	HDC hdc = GetDC(NULL); // 得到屏幕DC
 	//在electron中 缩放后分辨率获取失败获取到还是原始分辨率
 	int pixWidth = GetDeviceCaps(hdc, HORZRES);			//屏幕宽度实际尺寸mm
@@ -47,6 +52,25 @@ Napi::Object GetScreen(const Napi::CallbackInfo &info)
 	screen.Set("height", pixHeight);
 	screen.Set("HORZRES", dhcWidth);
 	screen.Set("VERTRES", hdcHeight);
+#endif
+#if defined(__linux) || defined(__unix) || defined(__posix)
+	Display *display;
+	Screen *screenx;
+	display = XOpenDisplay(NULL);
+	int screen_num = DefaultScreen(display);
+	screenx = XScreenOfDisplay(display, screen_num);
+	int wmm = DisplayWidthMM(display, screen_num);
+	int hmm = DisplayHeightMM(display, screen_num);
+	int w = DisplayWidth(display, screen_num);
+	int h = DisplayHeight(display, screen_num);
+	double dScrLeng = sqrt((double)(wmm * wmm + hmm * hmm));
+	int dpi = (int)(sqrt(w * w + h * h) / (dScrLeng / 25.4));
+	screen.Set("mm", wmm);
+	screen.Set("hh", hmm);
+	screen.Set("w", w);
+	screen.Set("h", h);
+	screen.Set("dpi", dpi);
+#endif
 	return screen;
 }
 

@@ -16,7 +16,12 @@
         'include_dirs': [
             "<!@(node -p \"require('node-addon-api').include\")"
         ],
-        'libraries': [],
+        'conditions': [
+            ['OS=="linux"', {
+            'libraries': ['-lX11'],
+            }]
+        ],
+        'libraries': [ ],
         'dependencies': [
             "<!(node -p \"require('node-addon-api').gyp\")"
         ],
