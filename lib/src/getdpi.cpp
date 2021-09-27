@@ -50,25 +50,25 @@ Napi::Object GetScreen(const Napi::CallbackInfo &info)
 	screen.Set("dpi", dpi);
 	screen.Set("width", pixWidth);
 	screen.Set("height", pixHeight);
-	screen.Set("HORZRES", dhcWidth);
-	screen.Set("VERTRES", hdcHeight);
+	screen.Set("widthDC", dhcWidth);
+	screen.Set("heightDC", hdcHeight);
 #endif
 #if defined(__linux) || defined(__unix) || defined(__posix)
 	Display *display;
-	Screen *screenx;
+	// Screen *screenx;
 	display = XOpenDisplay(NULL);
 	int screen_num = DefaultScreen(display);
-	screenx = XScreenOfDisplay(display, screen_num);
+	// screenx = XScreenOfDisplay(display, screen_num);
 	int wmm = DisplayWidthMM(display, screen_num);
 	int hmm = DisplayHeightMM(display, screen_num);
 	int w = DisplayWidth(display, screen_num);
 	int h = DisplayHeight(display, screen_num);
 	double dScrLeng = sqrt((double)(wmm * wmm + hmm * hmm));
 	int dpi = (int)(sqrt(w * w + h * h) / (dScrLeng / 25.4));
-	screen.Set("mm", wmm);
-	screen.Set("hh", hmm);
-	screen.Set("w", w);
-	screen.Set("h", h);
+	screen.Set("widthDC", wmm);
+	screen.Set("heightDC", hmm);
+	screen.Set("width", w);
+	screen.Set("height", h);
 	screen.Set("dpi", dpi);
 #endif
 	return screen;
