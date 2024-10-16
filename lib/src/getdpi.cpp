@@ -38,20 +38,23 @@ Napi::Object GetScreen(const Napi::CallbackInfo &info)
 	Napi::Object screen = Napi::Object::New(env);
 #if defined(_WIN32) || defined(_WIN64)
 	HDC hdc = GetDC(NULL); // 得到屏幕DC
-	//在electron中 缩放后分辨率获取失败获取到还是原始分辨率
+	// 在electron中 缩放后分辨率获取失败获取到还是原始分辨率
 	int pixWidth = GetDeviceCaps(hdc, HORZRES);			//屏幕宽度实际尺寸mm
 	int pixHeight = GetDeviceCaps(hdc, VERTRES);		//屏幕高度实际尺寸mm
 	int dhcWidth = GetDeviceCaps(hdc, HORZSIZE);		//屏幕X分辨率
 	int hdcHeight = GetDeviceCaps(hdc, VERTSIZE);		//屏幕Y分辨率
-	int deskw = GetDeviceCaps(hdc, DESKTOPHORZRES); //屏幕X分辨率未缩放时
-	int deskH = GetDeviceCaps(hdc, DESKTOPVERTRES); //屏幕X分辨率未缩放时
+	int deskW = GetDeviceCaps(hdc, DESKTOPHORZRES); //屏幕X分辨率未缩放时
+	int deskH = GetDeviceCaps(hdc, DESKTOPVERTRES); //屏幕Y分辨率未缩放时
 	double dScrLeng = sqrt((double)(dhcWidth * dhcWidth + hdcHeight * hdcHeight));
-	int dpi = (int)(sqrt(deskw * deskw + deskH * deskH) / (dScrLeng / 25.4));
+	int dpi = (int)(sqrt(deskW * deskW + deskH * deskH) / (dScrLeng / 25.4));
 	screen.Set("dpi", dpi);
 	screen.Set("width", pixWidth);
 	screen.Set("height", pixHeight);
 	screen.Set("widthDC", dhcWidth);
 	screen.Set("heightDC", hdcHeight);
+	// 未缩放的分辨率
+    screen.Set("w", deskW);
+    screen.Set("h", deskH);
 #endif
 #if defined(__linux) || defined(__unix) || defined(__posix)
 	Display *display;
@@ -70,6 +73,9 @@ Napi::Object GetScreen(const Napi::CallbackInfo &info)
 	screen.Set("width", w);
 	screen.Set("height", h);
 	screen.Set("dpi", dpi);
+    // 未缩放的分辨率
+    screen.Set("w", deskW);
+    screen.Set("h", deskH);
 #endif
 	return screen;
 }
